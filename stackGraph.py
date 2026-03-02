@@ -50,3 +50,22 @@ plt.show()
 
 #Hightlighting the highest source
 total = [sum(orangic),sum(paid),sum(social),sum(referral)]
+orangicSum = sum(orangic)
+paidSum = sum(paid)
+socialSum = sum(social)
+referralSum = sum(referral)
+total.sort()
+if total[1] == orangicSum :
+    highest = orangic
+elif total[1] == paidSum :
+    highest = paid
+elif total[1] == socialSum :
+    highest = social
+elif total[1] == referralSum :
+    highest = referral
+plt.figure(figsize=(8,6))
+plt.stackplot(x,orangic,paid,social,referral,labels=["Orangic","Paid","Social","Referral"],colors=colours,alpha=0.8)
+plt.plot(x,highest,color="#732722",linewidth=5)
+plt.xticks(x,data)
+plt.legend(loc="lower left")
+plt.show()
