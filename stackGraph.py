@@ -55,13 +55,14 @@ paidSum = sum(paid)
 socialSum = sum(social)
 referralSum = sum(referral)
 total.sort()
-if total[1] == orangicSum :
+hightestTotal = total[-1]
+if hightestTotal == orangicSum :
     highest = orangic
-elif total[1] == paidSum :
+elif hightestTotal == paidSum :
     highest = paid
-elif total[1] == socialSum :
+elif hightestTotal == socialSum :
     highest = social
-elif total[1] == referralSum :
+elif hightestTotal == referralSum :
     highest = referral
 plt.figure(figsize=(8,6))
 plt.stackplot(x,orangic,paid,social,referral,labels=["Orangic","Paid","Social","Referral"],colors=colours,alpha=0.8)
