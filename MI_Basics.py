@@ -56,3 +56,28 @@ print("Training output")
 print(yTrain)
 print("Testing output")
 print(yTest)
+
+#Training simple machine learning model
+
+print("Start training")
+from sklearn.linear_model import LogisticRegression
+
+classifer = LogisticRegression()
+classifer.fit(xTrain,yTrain)
+
+#predicting on test data
+
+predictions = classifer.predict(xTest)
+print("predictions made by model")
+print(predictions)
+print("Correct answers")
+print(yTest)
+
+#Printing accuary score
+
+from sklearn.metrics import accuracy_score
+
+score = accuracy_score(yTest,predictions)
+print("Model Accuracy")
+score = round((score*100),1)
+print(str(score)+"%")
