@@ -42,3 +42,42 @@ plt.title("Petal width vs species")
 
 plt.tight_layout()
 plt.show()
+
+#Spliting data into input and output
+
+y = data["species"]
+x = data.drop("species",axis=1)
+print(x.head())
+
+#Spliting data into training and testing set
+
+trainx,testx,trainy,testy = train_test_split(x,y,test_size=0.3,random_state=1)
+print(trainx.shape)
+print(testx.shape)
+
+#Training desion tree model
+
+model = DecisionTreeClassifier(max_depth=3,random_state=1)
+model.fit(trainx,trainy)
+perdictions = model.predict(testx)
+
+#Checking Accury
+
+print("Accurcy",round(metrics.accuracy_score(perdictions,testy)*100,2),"%")
+
+#Confeuion metrics
+
+from sklearn.metrics import confusion_matrix
+
+matrix = confusion_matrix(testy,perdictions)
+print("Confeuction Matix")
+print(matrix)
+
+#Vesalise the confusion matrix
+
+plt.imshow(matrix,cmap="Blues")
+plt.title("Confustion Matix")
+plt.colorbar()
+plt.xlabel("perdicted")
+plt.ylabel("acture")
+plt.show()
