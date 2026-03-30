@@ -56,7 +56,7 @@ def findTop10(name,n=5):
     countryData = data[data["Country"]==name]
     return countryData.nlargest(n,"Confirmed")
 
-usStates = findTop10("Us")
+usStates = findTop10("US")
 
 graph5 = go.Figure()
 
@@ -65,3 +65,50 @@ graph5.add_bar(name="Confirmed",x=usStates["Confirmed"],y=usStates["States"],ori
 graph5.update_layout(title="Most affected states in US",barmode="group",height=600)
 
 graph5.write_html("Figure 5_States.html",auto_open=True)
+
+# France Data
+
+franceStates = findTop10("France")
+
+graph6 = go.Figure()
+
+graph6.add_bar(name="Confirmed",x=franceStates["Confirmed"],y=franceStates["States"],orientation="h")
+graph6.update_layout(title="Most affected states in France")
+graph6.write_html("Most affected states in France.html",auto_open=True)
+
+#Calating the recovery rate and death rate
+
+data["Recovery_rate"]=(data["Recovered"]/data["Confirmed"])*100
+data["Death_rate"]=(data["Deaths"]/data["Confirmed"])*100
+data.replace([np.inf,-np.inf],0,inplace=True)
+
+recoveryRate = (data.groupby("Country")["Recovery_rate"].mean().nlargest(5))
+print("Top 5 countries by recovery rate")
+print(recoveryRate)
+
+deathRate = (data.groupby("Country")["Death_rate"].mean().nlargest(5))
+print("Top 5 counties by death rate")
+print(deathRate)
+
+#World map of comfirmed cases
+
+data2 = px.scatter_geo(data,lat="Lat",lon="Long",size="Confirmed",color="Confirmed",hover_name="Country",projection="natural earth",title="World Map of Covid-19 confirmed cases")
+data2.write_html("World Map of confirmed cases.html",auto_open=True)
+#data2.write_html("")
+
+#Gobal Covid distribution
+
+totalConfirmed = data["Confirmed"].sum()
+totalRecovered = data["Recovered"].sum()
+totalDeaths = data["Deaths"].sum()
+totalActive = data["Active"].sum()
+
+pieChart = px.pie(names=["Confirmed","Recovered","Deaths","Active"],values=[totalConfirmed,totalRecovered,totalDeaths,totalActive],title="Gobal Covid distribution")
+pieChart.write_html("Covid data.html",auto_open=True)
+
+#Country Data in a CSV file
+
+csv = data.groupby("Country").sum()[["Confirmed","Recovered","Deaths","Active"]]
+csv.to_csv("Contry Data.csv")
+print("file saved as a csv")
+
