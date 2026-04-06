@@ -112,3 +112,16 @@ csv = data.groupby("Country").sum()[["Confirmed","Recovered","Deaths","Active"]]
 csv.to_csv("Contry Data.csv")
 print("file saved as a csv")
 
+#finding the most deaths in states in US
+
+def findTop10deaths(name,n=5):
+    countryData = data[data["Country"]==name]
+    return countryData.nlargest(n,"Deaths")
+
+usStates = findTop10deaths("US")
+
+graph7 = go.Figure()
+
+graph7.add_bar(name="Deaths",x=usStates["Deaths"],y=usStates["States"],orientation="h")
+graph7.update_layout(title="Most deaths in states in US",barmode="group",height=600)
+graph7.write_html("Most deaths in states in US.html",auto_open=True)
