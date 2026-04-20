@@ -6,8 +6,8 @@ import pandas as pd
 
 data = pd.read_csv("adult.csv")
 
-data.columns = ["age","work_class","id","study","study_class","marriage_state","occupation","relateionship","race","gender","gain","lose","work_per_week","country","income"]
-data.rename(columns={"work_class":"work","study_class":"class","marriage_state":"marriage"})
+data.columns = ["age","work_class","id","study","study_class","marriage_state","occupation","relationship","race","gender","gain","lose","work_per_week","country","income"]
+data.rename(columns={"work_class":"work","study_class":"class","marriage_state":"marriage"},inplace=True)
 
 print(data.describe())
 print(data.info())
@@ -28,11 +28,11 @@ for i in data.columns:
 
 #droping columes
 
-data.drop(["id","study_class","work_per_week","gain","lose","country"],axis=1,inplace=True)
+data.drop(["id","class","work_per_week","gain","lose","country"],axis=1,inplace=True)
 income = set(data["income"])
 print(income)
 
 #maping data into numbers
-
-data["income"]=data["income"].map({'<=50k':0,'>50k':1}).astype(int)
+data["income"]=data["income"].str.strip()
+data["income"]=data["income"].map({' <=50k':0,' >50k':1})
 print(data.head())
